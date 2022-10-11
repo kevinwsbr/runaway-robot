@@ -120,7 +120,7 @@ def demo_grading(estimate_next_pos_fcn, target_bot, OTHER = None):
     broken_robot.penup()
     measured_broken_robot.penup()
     #End of Visualization
-    while not localized and ctr <= 10:
+    while not localized and ctr <= 1000:
         ctr += 1
         measurement = target_bot.sense()
         position_guess, OTHER = estimate_next_pos_fcn(measurement, OTHER)
@@ -128,10 +128,10 @@ def demo_grading(estimate_next_pos_fcn, target_bot, OTHER = None):
         true_position = (target_bot.x, target_bot.y)
         error = distance_between(position_guess, true_position)
         if error <= distance_tolerance:
-            print "You got it right! It took you ", ctr, " steps to localize."
+            print("You got it right! It took you ", ctr, " steps to localize.")
             localized = True
-        if ctr == 10:
-            print "Sorry, it took you too many steps to localize the target."
+        if ctr == 1000:
+            print("Sorry, it took you too many steps to localize the target.")
         #More Visualization
         measured_broken_robot.setheading(target_bot.heading*180/pi)
         measured_broken_robot.goto(measurement[0]*size_multiplier, measurement[1]*size_multiplier-200)
@@ -160,4 +160,4 @@ def naive_next_pos(measurement, OTHER = None):
 test_target = robot(2.1, 4.3, 0.5, 2*pi / 34.0, 1.5)
 test_target.set_noise(0.0, 0.0, 0.0)
 
-# demo_grading(naive_next_pos, test_target)
+demo_grading(naive_next_pos, test_target)
